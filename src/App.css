@@ -8,23 +8,26 @@ body, .app {
   background: white;
 }
 
-/* main page */
 
-.list-books-title {
+/* Site header */
+
+.site-header {
   padding: 10px 0;
   background: #ca1827;
   text-align: center;
 }
-.list-books-title h1 {
+.site-header h1 {
   font-weight: 400;
   margin: 0 .5em;
   color: white;
 	display: flex;
 	align-items: center;
 	text-align: center;
-	width: 275px;
+	width: 225px;
 	justify-content: center;
 }
+
+/* main page */
 
 .list-books-content {
   padding: 0 0 80px;
@@ -70,7 +73,6 @@ body, .app {
 /* search page */
 
 .search-books-bar {
-  position: fixed;
   width: 100%;
   top: 0;
   left: 0;

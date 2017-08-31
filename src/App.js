@@ -1,5 +1,6 @@
-import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import React, { Component } from 'react'
+import * as BooksAPI from './utils/BooksAPI'
+import Header from './SiteHeader'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -16,6 +17,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
+				<Header />
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
@@ -39,9 +41,6 @@ class BooksApp extends React.Component {
           </div>
         ) : (
           <div className="list-books">
-            <div className="list-books-title">
-              <h1><img className="logo" src={require('./images/logo-50x50.png')} alt="" aria-hidden="true"/>&nbsp;MyReads</h1>
-            </div>
             <div className="list-books-content">
               <div>
                 <div className="bookshelf">

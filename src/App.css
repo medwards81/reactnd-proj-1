@@ -41,6 +41,10 @@ body, .app {
 	justify-content: center;
 }
 
+.site-header a {
+	text-decoration: none;
+}
+
 /* main content */
 
 .main {
@@ -157,12 +161,13 @@ body, .app {
 }
 
 .book-title,
-.book-authors {
+.book-authors,
+.book-current-shelf {
   font-size: 0.8em;
 }
 
 .book-title {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .book-authors {
@@ -174,6 +179,12 @@ body, .app {
   height: 200px;
   display: flex;
   align-items: flex-end;
+}
+
+.book-current-shelf {
+	margin-top: 10px;
+	font-weight: 900;
+	color: #ca1827;
 }
 
 .book-shelf-changer {

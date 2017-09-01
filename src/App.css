@@ -38,7 +38,6 @@ body, .app {
 	display: flex;
 	align-items: center;
 	text-align: center;
-	width: 225px;
 	justify-content: center;
 }
 

@@ -96,8 +96,9 @@ body, .app {
 /* Search page */
 
 .search-books-bar {
+  position: fixed;
   width: 100%;
-  top: 0;
+  top: 70px;
   left: 0;
   z-index: 5;
   display: flex;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Header from './SiteHeader'
-import BookList from './BookList'
+import Bookcase from './Bookcase'
 import Search from './Search'
 import PageNotFound from './PageNotFound'
 import * as BooksAPI from './utils/BooksAPI'
@@ -9,26 +9,28 @@ import './App.css'
 
 class BooksApp extends Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+		books: [],
   }
 
+	componentDidMount() {
+		BooksAPI.getAll().then(books => {
+			this.setState({ books })
+		})
+	}
+
   render() {
+		const { books } = this.state;
+
     return (
       <div className="app">
 				<Header />
 				<div className="main">
           <Switch>
             <Route exact path='/' render={() => (
-              <BookList />
+              <Bookcase books={books}	/>
             )}/>
             <Route path="/search" render={() => (
-              <Search />
+              <Search books={books} />
             )}/>
             <Route component={PageNotFound} />
           </Switch>

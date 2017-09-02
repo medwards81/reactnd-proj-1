@@ -158,6 +158,7 @@ body, .app {
 
 .book {
   width: 140px;
+  cursor: pointer;
 }
 
 .book-title,
@@ -185,6 +186,22 @@ body, .app {
 	margin-top: 10px;
 	font-weight: 900;
 	color: #ca1827;
+}
+
+.book-modal-title {
+  margin: 0 0 20px 0;
+}
+
+.book-modal-desc {
+  margin: 20px 0;
+}
+
+.book-modal-close {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 2em;
 }
 
 .book-shelf-changer {

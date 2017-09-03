@@ -188,22 +188,6 @@ body, .app {
 	color: #ca1827;
 }
 
-.book-modal-title {
-  margin: 0 0 20px 0;
-}
-
-.book-modal-desc {
-  margin: 20px 0;
-}
-
-.book-modal-close {
-  position: absolute;
-  top: 0px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 2em;
-}
-
 .book-shelf-changer {
   position: absolute;
   right: 0;
@@ -226,6 +210,11 @@ body, .app {
   cursor: pointer;
 }
 
+.book-shelf-empty {
+  color: #999;
+  font-size: 1.25em;
+}
+
 /* Book cover */
 
 .book-cover {
@@ -237,4 +226,32 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+/* Book modal */
+.book-modal-title {
+  font-size: 1.5em;
+  font-weight: 900;
+}
+
+.book-modal-subtitle {
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
+.book-modal-authors {
+  margin-top: 10px;
+  color: #999;
+}
+
+.book-modal-desc {
+  margin: 20px 0;
+}
+
+.book-modal-close {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 2em;
 }

@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
+    "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-modal": "^2.2.4",
     "react-router-dom": "^4.2.2",
+    "react-star-rating-lite": "0.0.6",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {

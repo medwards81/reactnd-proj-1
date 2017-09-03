@@ -7,7 +7,8 @@ import Shelf from './Shelf'
 
 class Search extends Component {
 	static propTypes = {
-		books: PropTypes.array.isRequired
+		books: PropTypes.array.isRequired,
+		handleShelfAssignment: PropTypes.func
 	}
 
 	state = {
@@ -44,13 +45,13 @@ class Search extends Component {
 							type="text"
 							placeholder="Search by title or author"
 							value={query}
-							onChange={(event) => this.updateQuery(event.target.value)}
+							onChange={event => this.updateQuery(event.target.value)}
 						/>
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-						<Shelf books={showingBooks} showCurrentShelfForBook={true} />
+						<Shelf handleShelfAssignment={this.props.handleShelfAssignment} books={showingBooks} showCurrentShelfForBook={true} />
 					</ol>
         </div>
       </div>

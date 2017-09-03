@@ -6,8 +6,15 @@ import Search from './Search'
 import PageNotFound from './PageNotFound'
 import * as BooksAPI from './utils/BooksAPI'
 import './App.css'
+import _ from 'lodash'
 
 class BooksApp extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleShelfAssignment = this.handleShelfAssignment.bind(this)
+  }
+
   state = {
 		books: [],
   }
@@ -18,8 +25,27 @@ class BooksApp extends Component {
 		})
 	}
 
+  handleShelfAssignment(event) {
+    const bookId = event.target.id
+    const shelf = event.target.value
+
+    let prevBooks = [ ...this.state.books ]
+
+    const updatedBooks = this.state.books.filter(book => book.id === bookId)
+    if (updatedBooks.length) {
+      let updatedBook = updatedBooks[0]
+      updatedBook.shelf = shelf
+
+      const updatedBookRemoved = _.remove(prevBooks, function(book) {
+        return book.id !== bookId
+      })
+      updatedBookRemoved.push(updatedBook)
+      this.setState({ books: updatedBookRemoved })
+    }
+  }
+
   render() {
-		const { books } = this.state;
+		const { books } = this.state
 
     return (
       <div className="app">
@@ -27,10 +53,10 @@ class BooksApp extends Component {
 				<div className="main">
           <Switch>
             <Route exact path='/' render={() => (
-              <Bookcase books={books}	/>
+              <Bookcase handleShelfAssignment={this.handleShelfAssignment} books={books}	/>
             )}/>
             <Route path="/search" render={() => (
-              <Search books={books} />
+              <Search handleShelfAssignment={this.handleShelfAssignment} books={books} />
             )}/>
             <Route component={PageNotFound} />
           </Switch>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-modal'
+import Rating from 'react-star-rating-lite'
 
 const modalStyle = {
   content : {
@@ -18,7 +19,8 @@ const modalStyle = {
 class Book extends Component {
 	static propTypes = {
 		data: PropTypes.object.isRequired,
-		showCurrentShelf: PropTypes.bool
+		showCurrentShelf: PropTypes.bool,
+    handleShelfAssignment: PropTypes.func
 	}
 
 	constructor() {
@@ -39,7 +41,7 @@ class Book extends Component {
     this.setState( {modalIsOpen: false} );
   }
 
-	buildSelectList(currentShelf) {
+	buildSelectList(bookId, currentShelf) {
 		const selectOpts = {
 			currentlyReading: 'Currently Reading',
 			wantToRead: 'Want to Read',
@@ -53,7 +55,7 @@ class Book extends Component {
 
 		return (
 			<div onClick={event => event.stopPropagation()} className="book-shelf-changer">
-				<select>
+				<select id={bookId} onChange={this.props.handleShelfAssignment}>
 					<option value="none" disabled>Move to...</option>
 					{opts}
 					<option value="none">None</option>
@@ -83,11 +85,14 @@ class Book extends Component {
 				<div onClick={this.openModal} className="book">
 					<div className="book-top">
 						<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: thumbURL }}></div>
-						{this.buildSelectList(currentShelf)}
+						{this.buildSelectList(bookData.id, currentShelf)}
 					</div>
 					{showCurrentShelf && bookData.shelf !== 'none' && (<div className="book-current-shelf">{this.mapShelfName(bookData.shelf)}!</div>)}
 					<div className="book-title">{bookData.title}</div>
 					<div className="book-authors">{bookData.authors.join(', ')}</div>
+          <div className="book-rating">
+            <Rating value={bookData.averageRating} weight="12" readonly />
+          </div>
 				</div>
 				<Modal
 					isOpen={this.state.modalIsOpen}
@@ -95,10 +100,16 @@ class Book extends Component {
 					contentLabel="Book Details"
 					style={modalStyle}
 				>
-					<h2 className="book-modal-title">{bookData.title}</h2>
-					<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: thumbURL }}></div>
-					<span onClick={this.closeModal} className="book-modal-close" title="close">&times;</span>
-					<div className="book-modal-desc">{bookData.description}</div>
+          <span onClick={this.closeModal} className="book-modal-close" title="Close">&times;</span>
+					<div className="book-modal-title">{bookData.title}</div>
+          {bookData.subtitle && (<div className="book-modal-subtitle">{bookData.subtitle}</div>)}
+					<div className="book-modal-cover" style={{ marginTop: '20px', width: 128, height: 193, backgroundImage: thumbURL }}></div>
+          <div className="book-modal-authors">{bookData.authors.join(', ')}</div>
+          <div className="book-modal-publish-date">{bookData.publishedDate.split('-')[0]}</div>
+          <div className="book-modal-rating">
+            <Rating value={bookData.averageRating} weight="16" readonly />
+          </div>
+          <div className="book-modal-desc">{bookData.description}</div>
 				</Modal>
 			</li>
 		)

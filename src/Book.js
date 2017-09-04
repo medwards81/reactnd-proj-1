@@ -39,6 +39,7 @@ class Book extends Component {
     this.setState({ modalIsOpen: false });
   }
 
+  // Build the available shelf options, based on current shelf location
 	buildSelectList(bookId, currentShelf) {
 		const selectOpts = {
 			currentlyReading: 'Currently Reading',
@@ -54,7 +55,7 @@ class Book extends Component {
 		return (
 			<div onClick={event => event.stopPropagation()} className="book-shelf-changer">
 				<select id={bookId} onChange={this.props.handleShelfAssignment}>
-					<option value="none" disabled>Move to...</option>
+					<option value="">Move to...</option>
 					{opts}
 					<option value="none">None</option>
 				</select>

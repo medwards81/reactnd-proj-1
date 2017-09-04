@@ -26,6 +26,7 @@ class BooksApp extends Component {
 		})
 	}
 
+  // Take the event object passed up from Book component and update book state
   handleShelfAssignment(event) {
     const bookId = event.target.id
     const shelf = event.target.value
@@ -41,6 +42,7 @@ class BooksApp extends Component {
     }
   }
 
+  // Take the updated book passed from Book component and update book state
   handleSearchUpate(books) {
     this.setState({ books })
   }

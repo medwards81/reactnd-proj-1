@@ -5,14 +5,12 @@ import Rating from 'react-star-rating-lite'
 
 const modalStyle = {
   content : {
-    top: '55%',
+    width: '80%',
+    height: '80%',
+    position: 'absolute',
     left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-		width: '80%',
-		maxWidth: '800px'
+    top: '90px',
+    marginLeft: '-40%'
   }
 };
 
@@ -34,11 +32,11 @@ class Book extends Component {
 	}
 
 	openModal() {
-		this.setState( {modalIsOpen: true} );
+		this.setState({ modalIsOpen: true });
 	}
 
 	closeModal() {
-    this.setState( {modalIsOpen: false} );
+    this.setState({ modalIsOpen: false });
   }
 
 	buildSelectList(bookId, currentShelf) {

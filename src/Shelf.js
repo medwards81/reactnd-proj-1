@@ -10,17 +10,6 @@ class Shelf extends Component {
 		handleShelfAssignment: PropTypes.func
 	}
 
-	constructor(props) {
-		super(props)
-
-		this.shelfIsEmtpy = false;
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.books.length === 0) this.shelfIsEmtpy = true
-		else this.shelfIsEmtpy = false
-	}
-
 	render() {
 		let { showCurrentShelfForBook } = this.props
 		if (showCurrentShelfForBook === undefined) showCurrentShelfForBook = false
@@ -30,9 +19,9 @@ class Shelf extends Component {
 				{this.props.category && (<h2 className="bookshelf-title">{this.props.category}</h2>)}
 				<div className="bookshelf-books">
 					<ol className="books-grid">
-						{this.shelfIsEmtpy
-							? <li className="book-shelf-empty">Bookshelf is empty.</li>
-							: this.props.books.map(book => <Book key={book.id} handleShelfAssignment={this.props.handleShelfAssignment} data={book} showCurrentShelf={showCurrentShelfForBook} />)
+						{this.props.books.length
+							? this.props.books.map(book => <Book key={book.id} handleShelfAssignment={this.props.handleShelfAssignment} data={book} showCurrentShelf={showCurrentShelfForBook} />)
+							: <div className="book-shelf-empty">Bookshelf is empty</div>
 						}
 					</ol>
 				</div>

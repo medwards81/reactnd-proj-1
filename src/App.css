@@ -13,8 +13,9 @@ body, .app {
 /* Page not found */
 
 .page-not-found {
-  margin: 3em auto;
+  margin: 2em auto;
   text-align: center;
+  color: #999;
 }
 
 /* Site header */
@@ -52,6 +53,12 @@ body, .app {
 }
 
 /* Main page */
+
+.loading-bookshelves {
+  font-size: 1.5em;
+  color: #999;
+  text-align: center;
+}
 
 .list-books-content {
   padding: 0 0 80px;
@@ -139,6 +146,18 @@ body, .app {
   padding: 80px 10px 20px;
 }
 
+.showing-books {
+  text-align: center;
+  margin: 20px 0;
+}
+.showing-books button {
+  color: blue;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+}
+
 /* books grid */
 
 .books-grid {
@@ -212,7 +231,7 @@ body, .app {
 
 .book-shelf-empty {
   color: #999;
-  font-size: 1.25em;
+  font-size: 1.5em;
 }
 
 /* Book cover */
@@ -254,4 +273,13 @@ body, .app {
   right: 10px;
   cursor: pointer;
   font-size: 2em;
+  color: #999;
+  font-weight: 900;
+}
+
+@media screen and (min-width: 1200px) {
+    .ReactModal__Content {
+        width: 800px;
+        margin-left: -400px;
+    }
 }

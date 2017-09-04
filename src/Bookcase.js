@@ -13,10 +13,6 @@ class Bookcase extends Component {
 	render() {
 		const { books } = this.props
 
-		if (! books.length) {
-			return (<h2>Loading bookshelves...</h2>)
-		}
-
 		const currentlyReading = books.filter(book => book.shelf === 'currentlyReading')
 		const wantToRead = books.filter(book => book.shelf === 'wantToRead')
 		const read = books.filter(book => book.shelf === 'read')

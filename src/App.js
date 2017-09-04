@@ -13,6 +13,7 @@ class BooksApp extends Component {
     super(props)
 
     this.handleShelfAssignment = this.handleShelfAssignment.bind(this)
+    this.handleSearchUpate = this.handleSearchUpate.bind(this)
   }
 
   state = {
@@ -29,19 +30,19 @@ class BooksApp extends Component {
     const bookId = event.target.id
     const shelf = event.target.value
 
-    let prevBooks = [ ...this.state.books ]
-
-    const updatedBooks = this.state.books.filter(book => book.id === bookId)
-    if (updatedBooks.length) {
-      let updatedBook = updatedBooks[0]
-      updatedBook.shelf = shelf
-
-      const updatedBookRemoved = _.remove(prevBooks, function(book) {
-        return book.id !== bookId
-      })
-      updatedBookRemoved.push(updatedBook)
-      this.setState({ books: updatedBookRemoved })
+    let books = [ ...this.state.books ];
+    var bookToUpdateIdx = _.findIndex(books, function(book) { return book.id === bookId })
+    if (bookToUpdateIdx !== -1) {
+      const bookToUpdate = books[bookToUpdateIdx]
+      BooksAPI.update(bookToUpdate, shelf).then(resp => {
+        bookToUpdate.shelf = shelf
+        this.setState({ books })
+  		})
     }
+  }
+
+  handleSearchUpate(books) {
+    this.setState({ books })
   }
 
   render() {
@@ -56,7 +57,7 @@ class BooksApp extends Component {
               <Bookcase handleShelfAssignment={this.handleShelfAssignment} books={books}	/>
             )}/>
             <Route path="/search" render={() => (
-              <Search handleShelfAssignment={this.handleShelfAssignment} books={books} />
+              <Search handleSearchUpate={this.handleSearchUpate} />
             )}/>
             <Route component={PageNotFound} />
           </Switch>

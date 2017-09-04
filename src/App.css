@@ -279,7 +279,7 @@ body, .app {
 
 @media screen and (min-width: 1200px) {
     .ReactModal__Content {
-        width: 800px;
-        margin-left: -400px;
+        width: 800px !important;
+        margin-left: -400px !important;
     }
 }

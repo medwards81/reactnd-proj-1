@@ -9,12 +9,13 @@ import _ from 'lodash'
 
 class Search extends Component {
 	static propTypes = {
+		currentBooks: PropTypes.object,
 		handleShelfAssignment: PropTypes.func
 	}
 
 	state = {
-		books: [],
-		query: ''
+		query: '',
+		books: []
 	}
 
 	constructor(props) {
@@ -23,26 +24,31 @@ class Search extends Component {
     this.handleShelfAssignment = this.handleShelfAssignment.bind(this)
   }
 
-	componentDidMount() {
-		if (this.state.query) {
-			const maxResults = 50
-			BooksAPI.search(this.state.query, maxResults).then(books => {
-				this.setState({ books })
+	updateQuery = (query) => {
+		if (query) {
+			const maxResults = 20
+			BooksAPI.search(query, maxResults).then(books => {
+				if (books.error || ! books) {
+					books = []
+				}
+				else {
+					const { currentBooks } = this.props
+					// check to see if any of the searched books matches the user's
+					// current books, and if so, add the shelf property to the searched book
+					books.forEach(function (book) {
+					  if (currentBooks[book.id]) book.shelf = currentBooks[book.id].shelf
+					});
+				}
+				this.setState({ books, query: query.trim() })
 			})
 		}
 		else {
-			BooksAPI.getAll().then(books => {
-				this.setState({ books })
-			})
+			this.setState({ query: '', books: [] })
 		}
-	}
-
-	updateQuery = (query) => {
-    this.setState({ query: query.trim() })
   }
 
   clearQuery = () => {
-    this.setState({ query: '' })
+    this.setState({ query: '', books: [] })
   }
 
 	handleShelfAssignment(event) {
@@ -56,22 +62,21 @@ class Search extends Component {
 			BooksAPI.update(bookToUpdate, shelf).then(resp => {
 				bookToUpdate.shelf = shelf
 				this.setState({ books })
-				this.props.handleSearchUpate(books)
+				this.props.handleSearchUpate()
 			})
 		}
 	}
 
   render() {
-
 		const { books, query } = this.state
+		//const updateQuery = _.debounce((query) => { this.updateQuery(query) }, 300);
 
-		let showingBooks = books
-    if (query) {
+		let showingBooks = books;
+    if (query && books.length) {
       const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter(book => match.test(book.title) || match.test(book.authors.join(',')))
+      showingBooks = books.filter(book => match.test(book.title) || (book.authors ? match.test(book.authors.join(',')) : false))
+			showingBooks.sort(sortBy('title'))
     }
-
-		showingBooks.sort(sortBy('title'))
 
     return (
       <div className="search-books">
@@ -87,14 +92,20 @@ class Search extends Component {
           </div>
         </div>
       	<div className="search-books-results">
-					{showingBooks.length !== books.length && (
+					{showingBooks.length !== 0 && (
 	          <div className='showing-books'>
-	            <span>Now showing {showingBooks.length} of {books.length} total</span>
-	            <button onClick={this.clearQuery}>Show all</button>
+	            <span className="search-result-msg">{showingBooks.length} matches found.</span>
+	            <button onClick={this.clearQuery}>Clear Search</button>
 	          </div>
 	        )}
           <ol className="books-grid">
-						<Shelf handleShelfAssignment={this.handleShelfAssignment} books={showingBooks} showCurrentShelfForBook={true} />
+						<Shelf
+							handleShelfAssignment={this.handleShelfAssignment}
+							books={showingBooks}
+							showCurrentShelfForBook={true}
+							disableShelfEmptyMessage={true}
+							bookModalTop={150}
+						/>
 					</ol>
         </div>
       </div>

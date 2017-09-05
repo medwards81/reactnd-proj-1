@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Modal from 'react-modal'
 import Rating from 'react-star-rating-lite'
 
-const modalStyle = {
+let modalStyle = {
   content : {
     width: '80%',
     height: '80%',
@@ -18,11 +18,12 @@ class Book extends Component {
 	static propTypes = {
 		data: PropTypes.object.isRequired,
 		showCurrentShelf: PropTypes.bool,
-    handleShelfAssignment: PropTypes.func
+    handleShelfAssignment: PropTypes.func,
+    modalTop: PropTypes.number
 	}
 
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.openModal = this.openModal.bind(this);
 	  this.closeModal = this.closeModal.bind(this);
 	}
@@ -44,7 +45,8 @@ class Book extends Component {
 		const selectOpts = {
 			currentlyReading: 'Currently Reading',
 			wantToRead: 'Want to Read',
-			read: 'Read'
+			read: 'Read',
+      none: 'None'
 		}
 
 		// remove book's current shelf location from options
@@ -57,7 +59,6 @@ class Book extends Component {
 				<select id={bookId} onChange={this.props.handleShelfAssignment}>
 					<option value="">Move to...</option>
 					{opts}
-					<option value="none">None</option>
 				</select>
 			</div>
 		)
@@ -75,9 +76,12 @@ class Book extends Component {
 
 	render() {
 		const bookData = this.props.data
-		const currentShelf = bookData.shelf
-		const thumbURL = `url("${bookData.imageLinks.thumbnail}")`
+    const modalTop = this.props.modalTop
+		const currentShelf = bookData.shelf || 'none'
+		const thumbURL = bookData.imageLinks ? `url("${bookData.imageLinks.thumbnail}")` : 'none'
 		const showCurrentShelf = this.props.showCurrentShelf
+
+    if (modalTop >= 0) modalStyle.content.top = `${modalTop}px`
 
 		return (
 			<li>
@@ -86,9 +90,9 @@ class Book extends Component {
 						<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: thumbURL }}></div>
 						{this.buildSelectList(bookData.id, currentShelf)}
 					</div>
-					{showCurrentShelf && bookData.shelf !== 'none' && (<div className="book-current-shelf">{this.mapShelfName(bookData.shelf)}!</div>)}
+					{showCurrentShelf && bookData.shelf && bookData.shelf !== 'none' && (<div className="book-current-shelf">{this.mapShelfName(bookData.shelf)}!</div>)}
 					<div className="book-title">{bookData.title}</div>
-					<div className="book-authors">{bookData.authors.join(', ')}</div>
+					{bookData.authors && (<div className="book-authors">{bookData.authors.join(', ')}</div>)}
           <div className="book-rating">
             <Rating value={bookData.averageRating} weight="12" readonly />
           </div>
@@ -103,11 +107,11 @@ class Book extends Component {
 					<div className="book-modal-title">{bookData.title}</div>
           {bookData.subtitle && (<div className="book-modal-subtitle">{bookData.subtitle}</div>)}
 					<div className="book-modal-cover" style={{ marginTop: '20px', width: 128, height: 193, backgroundImage: thumbURL }}></div>
-          <div className="book-modal-authors">{bookData.authors.join(', ')}</div>
-          <div className="book-modal-publish-date">{bookData.publishedDate.split('-')[0]}</div>
-          <div className="book-modal-rating">
+          {bookData.authors && (<div className="book-modal-authors">{bookData.authors.join(', ')}</div>)}
+          {bookData.publishedDate && (<div className="book-modal-publish-date">{bookData.publishedDate.split('-')[0]}</div>)}
+          {bookData.averageRating && (<div className="book-modal-rating">
             <Rating value={bookData.averageRating} weight="16" readonly />
-          </div>
+          </div>)}
           <div className="book-modal-desc">{bookData.description}</div>
 				</Modal>
 			</li>

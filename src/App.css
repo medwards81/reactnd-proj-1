@@ -146,10 +146,16 @@ body, .app {
   padding: 80px 10px 20px;
 }
 
+.search-result-msg {
+  color: #999;
+  font-size: 1em;
+}
+
 .showing-books {
   text-align: center;
   margin: 20px 0;
 }
+
 .showing-books button {
   color: blue;
   background: transparent;

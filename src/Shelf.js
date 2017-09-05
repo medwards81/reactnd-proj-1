@@ -7,7 +7,9 @@ class Shelf extends Component {
 		books: PropTypes.array.isRequired,
 		category: PropTypes.string,
 		showCurrentShelfForBook: PropTypes.bool,
-		handleShelfAssignment: PropTypes.func
+		handleShelfAssignment: PropTypes.func,
+		disableShelfEmptyMessage: PropTypes.bool,
+		bookModalTop: PropTypes.number
 	}
 
 	render() {
@@ -20,8 +22,14 @@ class Shelf extends Component {
 				<div className="bookshelf-books">
 					<ol className="books-grid">
 						{this.props.books.length
-							? this.props.books.map(book => <Book key={book.id} handleShelfAssignment={this.props.handleShelfAssignment} data={book} showCurrentShelf={showCurrentShelfForBook} />)
-							: <div className="book-shelf-empty">Bookshelf is empty</div>
+							? this.props.books.map(book => <Book
+									key={book.id}
+									handleShelfAssignment={this.props.handleShelfAssignment}
+									data={book} showCurrentShelf={showCurrentShelfForBook}
+									modalTop={this.props.bookModalTop} />)
+							: this.props.disableShelfEmptyMessage
+								? null
+								: <div className="book-shelf-empty">Bookshelf is empty</div>
 						}
 					</ol>
 				</div>

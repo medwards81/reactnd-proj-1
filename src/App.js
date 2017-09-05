@@ -20,10 +20,14 @@ class BooksApp extends Component {
 		books: [],
   }
 
+  refreshBooks() {
+    BooksAPI.getAll().then(books => {
+      this.setState({ books })
+    })
+  }
+
 	componentDidMount() {
-		BooksAPI.getAll().then(books => {
-			this.setState({ books })
-		})
+    this.refreshBooks()
 	}
 
   // Take the event object passed up from Book component and update book state
@@ -42,13 +46,14 @@ class BooksApp extends Component {
     }
   }
 
-  // Take the updated book passed from Book component and update book state
-  handleSearchUpate(books) {
-    this.setState({ books })
+  // Retrieve updated books list after updating a search-results book
+  handleSearchUpate() {
+    this.refreshBooks()
   }
 
   render() {
 		const { books } = this.state
+    const booksMap = _.mapKeys(books, 'id');
 
     return (
       <div className="app">
@@ -59,7 +64,7 @@ class BooksApp extends Component {
               <Bookcase handleShelfAssignment={this.handleShelfAssignment} books={books}	/>
             )}/>
             <Route path="/search" render={() => (
-              <Search handleSearchUpate={this.handleSearchUpate} />
+              <Search currentBooks={booksMap} handleSearchUpate={this.handleSearchUpate} />
             )}/>
             <Route component={PageNotFound} />
           </Switch>
